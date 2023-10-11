@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -10,6 +12,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,15 +27,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	
 	
 	//Add your object declaration and instantiations here
-	Background b = new Background("backgroundExample.gif");
-	
+	Background b = new Background("Background.gif");
+	Zombie z = new Zombie("Zombie2.gif");
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		
 		//Call the paint method of your objects here
 		b.paint(g);
-		
+		z.paint(g);
 		
 		
 	}
@@ -49,6 +52,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		f.setResizable(false);
  		f.addMouseListener(this);
 		f.addKeyListener(this);
+		
+		//cursor image must be outside of src folder
+		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
+				new ImageIcon("Scope.png").getImage(),
+				new Point(0,0),"custom cursor"));
+		
 		Timer t = new Timer(16, this);
 		t.start();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,7 +68,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+		System.out.println(arg0.getX());
+		System.out.println(arg0.getY());
 	}
 
 	@Override
@@ -77,7 +87,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-	
+		
 	}
 
 	@Override

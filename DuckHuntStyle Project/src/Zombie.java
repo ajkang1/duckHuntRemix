@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 
-public class Duck{
+public class Zombie{
 	private Image img; 	
 	private AffineTransform tx;
 	int width, height;
@@ -15,16 +15,17 @@ public class Duck{
 	int vx, vy;						//movement variables
 	double scaleWidth = 1.0;		 //change to scale image
 	double scaleHeight = 1.0; //change to scale image
+	boolean boon = false;
 
-	public Duck(String filename) {
+	public Zombie(String filename) {
 		img = getImage("/imgs/"+filename); //load the image for Tree
 
 		//alter these
 		width = 0;
 		height = 0;
-		x = 0;
-		y = 0;
-		vx = 0;
+		x = 100;
+		y = 275;
+		vx = 3;
 		vy = 0;
 		
 		
@@ -44,11 +45,17 @@ public class Duck{
 		//these are the 2 lines of code needed draw an image on the screen
 		Graphics2D g2 = (Graphics2D) g;
 		
-		
+		if(x>600){
+			vx*=-1;
+			boon = true;
+			img = getImage("/imgs/" + "Zombie.gif");
+		}else if(boon == true && x < 50) {
+			vx*=-1;
+			boon = false;
+			img = getImage("/imgs/" + "Zombie2.gif");
+		}
 		x+=vx;
 		y+=vy;
-		
-		
 			
 		
 		
@@ -66,7 +73,7 @@ public class Duck{
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {
-			URL imageURL = Duck.class.getResource(path);
+			URL imageURL = Zombie.class.getResource(path);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		} catch (Exception e) {
 			e.printStackTrace();

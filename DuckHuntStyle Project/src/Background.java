@@ -12,8 +12,8 @@ public class Background{
 	private AffineTransform tx;
 	int x, y;						//position of the object
 	int vx, vy;						//movement variables
-	double scaleWidth = 1.0;		 //change to scale image
-	double scaleHeight = 1.0; //change to scale image
+	double scaleWidth = .9;		 //change to scale image
+	double scaleHeight = .565; //change to scale image
 
 	public Background(String filename) {
 		img = getImage("/imgs/"+filename); //load the image for Tree
