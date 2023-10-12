@@ -13,6 +13,7 @@ public class Zombie{
 	int width, height;
 	int x, y;						//position of the object
 	int vx, vy;						//movement variables
+	int currentX, currentY;
 	double scaleWidth = 1.0;		 //change to scale image
 	double scaleHeight = 1.0; //change to scale image
 	boolean boon = false;
@@ -40,6 +41,12 @@ public class Zombie{
 		init(0, 0);
 	}
 	
+	public getCordX(int x) {
+		currentX = x;
+	}
+	public getCordY(int y) {
+		currentY = y;
+	}
 	
 	public void paint(Graphics g) {
 		//these are the 2 lines of code needed draw an image on the screen
@@ -56,8 +63,6 @@ public class Zombie{
 		}
 		x+=vx;
 		y+=vy;
-			
-		
 		
 		
 		init(x,y);

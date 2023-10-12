@@ -36,8 +36,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		//Call the paint method of your objects here
 		b.paint(g);
 		z.paint(g);
-		
-		
+		int xZomb = z.getCordX();
+		int yZomb = x.getCordY();
 	}
 	
 	public static void main(String[] arg) {
@@ -68,8 +68,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		System.out.println(arg0.getX());
-		System.out.println(arg0.getY());
+		int xMouse = arg0.getX();
+		int yMouse = arg0.getX();
+		System.out.println(xMouse);
+		System.out.println(yMouse);
+		if()
 	}
 
 	@Override
