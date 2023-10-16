@@ -22,8 +22,8 @@ public class Zombie{
 		img = getImage("/imgs/"+filename); //load the image for Tree
 
 		//alter these
-		width = 0;
-		height = 0;
+		width = 160;
+		height = 240;
 		x = 100;
 		y = 275;
 		vx = 3;
@@ -37,15 +37,8 @@ public class Zombie{
 	}
 	
 	public void changePicture(String newFileName) {
-		img = getImage(newFileName);
+		img = getImage("/imgs/" + newFileName);
 		init(0, 0);
-	}
-	
-	public getCordX(int x) {
-		currentX = x;
-	}
-	public getCordY(int y) {
-		currentY = y;
 	}
 	
 	public void paint(Graphics g) {

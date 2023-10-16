@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,8 +37,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		//Call the paint method of your objects here
 		b.paint(g);
 		z.paint(g);
-		int xZomb = z.getCordX();
-		int yZomb = x.getCordY();
 	}
 	
 	public static void main(String[] arg) {
@@ -64,15 +63,29 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		f.setVisible(true);
 	}
 	
-	
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
+	public void mouseClicked(MouseEvent m) {
 		// TODO Auto-generated method stub
-		int xMouse = arg0.getX();
-		int yMouse = arg0.getX();
-		System.out.println(xMouse);
-		System.out.println(yMouse);
-		if()
+		int xMouse = m.getX();
+		int yMouse = m.getY();
+		System.out.println(xMouse + ":" + yMouse);
+		//Perform Rectangle collision for the two objects
+		//
+		Rectangle a = new Rectangle(xMouse, yMouse, 50,50); //Mouse representation
+		
+		//Represent the 2nd object as a Rectangle
+		Rectangle b = new Rectangle(z.x, z.y, z.width, z.height); //x, y, width, height
+		
+		//Print the values of the Rectangle to confirm they're all sensical values!
+		System.out.println("mouse: " + a);
+		System.out.println("mouse: " + b);
+		
+		if(a.intersects(b)) {
+			System.out.println("ouch");
+			z.changePicture("Ghost.gif");
+		}
+		
+		
 	}
 
 	@Override
