@@ -17,7 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
+import java.lang.Thread;
 public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener {
 	
 	//frame width/height
@@ -33,6 +33,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Zombie z = new Zombie("Zombie2.gif");
 	Lives l = new Lives("Lives.png");
 	Lives l2 = new Lives("Lives.png");
+	Music gunShot = new Music("Shoot.wav", false);
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		
@@ -67,7 +68,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	}
 	
 	@Override
-	public void mouseClicked(MouseEvent m) {
+	public void mouseClicked(MouseEvent m){
 		// TODO Auto-generated method stub
 		int xMouse = m.getX();
 		int yMouse = m.getY();
@@ -82,9 +83,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		//Print the values of the Rectangle to confirm they're all sensical values!
 		System.out.println("mouse: " + a);
 		System.out.println("mouse: " + b);
-		
+		gunShot.play();
 		if(a.intersects(b)) {
 			System.out.println("ouch");
+			Thread.sleep(3825);
 			if(z.boon == true) { //Walking left
 				z.y += 300;
 				z.vx = -2;
