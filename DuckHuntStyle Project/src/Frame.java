@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,19 +23,24 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	//frame width/height
 	int width = 900;
 	int height = 600;
+	int heart;
+	int click = 0;
 	
 	
 	
 	//Add your object declaration and instantiations here
 	Background b = new Background("Background.gif");
 	Zombie z = new Zombie("Zombie2.gif");
-	
+	Lives l = new Lives("Lives.png");
+	Lives l2 = new Lives("Lives.png");
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		
 		//Call the paint method of your objects here
 		b.paint(g);
 		z.paint(g);
+		l.paint(g);
+
 	}
 	
 	public static void main(String[] arg) {
@@ -44,7 +48,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	}
 	
 	public Frame() {
-		JFrame f = new JFrame("Duck Hunt");
+		JFrame f = new JFrame("Zombie Hunt");
 		f.setSize(new Dimension(width, height));
 		f.setBackground(Color.blue);
 		f.add(this);
@@ -83,6 +87,26 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if(a.intersects(b)) {
 			System.out.println("ouch");
 			z.changePicture("Ghost.gif");
+		}else {
+			System.out.println("You missed");
+			click++;
+			if(click == 1) {
+				l.changePicture("Lives2.png");
+			}else if(click == 2) {
+				l.changePicture("Lives3.png");
+			}else if(click == 3) {
+				l.changePicture("Lives4.png");
+			}else if(click == 4) {
+				l.changePicture("Lives6.png");
+			}else if(click == 5) {
+				l.changePicture("Lives7.png");
+			}else if(click == 6) {
+				l.changePicture("Lives8.png");
+				
+			}else {
+				click = 0;
+				l.changePicture("Lives.png");
+			}
 		}
 		
 		
