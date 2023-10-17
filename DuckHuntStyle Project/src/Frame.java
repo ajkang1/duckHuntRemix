@@ -25,7 +25,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	int height = 600;
 	int heart;
 	int click = 0;
-	
+	int score = 0;
 	
 	
 	//Add your object declaration and instantiations here
@@ -40,7 +40,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		b.paint(g);
 		z.paint(g);
 		l.paint(g);
-
 	}
 	
 	public static void main(String[] arg) {
@@ -86,8 +85,17 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 		if(a.intersects(b)) {
 			System.out.println("ouch");
+			if(z.boon == true) { //Walking left
+				z.y += 300;
+				z.vx = -2;
+				z.vy = -7;
+			}else { //Walking right
+				z.y += 300;
+				z.vx = 2;
+				z.vy = -7;
+			}
 			z.changePicture("Ghost.gif");
-		}else {
+		}else { //Checks if mouse is clicked outside of zombie
 			System.out.println("You missed");
 			click++;
 			if(click == 1) {
@@ -102,10 +110,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				l.changePicture("Lives7.png");
 			}else if(click == 6) {
 				l.changePicture("Lives8.png");
-				
+				z.vx = 0;
 			}else {
 				click = 0;
 				l.changePicture("Lives.png");
+				if(z.boon == true) {
+					z.vx = -3;
+				}else {
+					z.vx = 3;
+				}
 			}
 		}
 		

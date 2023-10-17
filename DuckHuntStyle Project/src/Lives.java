@@ -14,8 +14,8 @@ public class Lives{
 	int x, y;						//position of the object
 	int vx, vy;						//movement variables
 	int currentX, currentY;
-	double scaleWidth = 0.5;		 //change to scale image
-	double scaleHeight = 0.5; //change to scale image
+	double scaleWidth = 0.35;		 //change to scale image
+	double scaleHeight = 0.35; //change to scale image
 	boolean boon = false;
 
 	public Lives(String filename) {

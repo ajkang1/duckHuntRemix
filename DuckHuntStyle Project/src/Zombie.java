@@ -17,13 +17,14 @@ public class Zombie{
 	double scaleWidth = 1.0;		 //change to scale image
 	double scaleHeight = 1.0; //change to scale image
 	boolean boon = false;
+	boolean walkCheck = true;
 
 	public Zombie(String filename) {
 		img = getImage("/imgs/"+filename); //load the image for Tree
 
 		//alter these
-		width = 160;
-		height = 240;
+		width = 120;
+		height = 200;
 		x = 100;
 		y = 275;
 		vx = 3;
