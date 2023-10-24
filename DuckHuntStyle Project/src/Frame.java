@@ -20,20 +20,28 @@ import javax.swing.Timer;
 import java.lang.Thread;
 public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener {
 	
+	///
+	long timer = 0;
+	long time = 30;
+	int level = 0;
+	
 	//frame width/height
 	int width = 900;
 	int height = 600;
 	int heart;
 	int click = 0;
 	int score = 0;
+	boolean dead = false;
+	boolean deathcheck = true;
 	
-	
+	boolean tpos = false;
 	//Add your object declaration and instantiations here
 	Background b = new Background("Background.gif");
 	Zombie z = new Zombie("Zombie2.gif");
 	Lives l = new Lives("Lives.png");
 	Lives l2 = new Lives("Lives.png");
 	Music gunShot = new Music("Shoot.wav", false);
+	Tombstone t = new Tombstone("tombstone.png");
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		
@@ -41,8 +49,45 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		b.paint(g);
 		z.paint(g);
 		l.paint(g);
-	}
-	
+		t.paint(g);
+		
+		////////////////////////////////////////////////////////
+		if (t.y <= 240) {
+			z.x = -200;
+			z.vx = 3;
+			t.vy = 8;
+			deathcheck = true;
+			z.boon = false;
+			tpos = true;
+			z.changePicture("Zombie2.gif");
+		}
+		if (t.y >= 600 && tpos == true) {
+			t.vy = 0;
+	/////////////////////////////////////////////////////////////
+			
+		}
+		timer += 20;
+		if(timer%1000 == 0) {
+			time--;
+			}
+		if (time == 0) {
+			level++;
+			time = 0;
+		}
+		g.setColor(Color.WHITE);
+		g.drawString(""+time, 200,100);
+		
+		g.drawString("Score: "+score, 10, 35);
+		
+		if (level >0) {
+			z.paint(g);
+			
+			//paint new values
+		}
+		}
+		
+		//////////////////////////////////////////////////////////
+		
 	public static void main(String[] arg) {
 		Frame f = new Frame();
 	}
@@ -70,6 +115,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	@Override
 	public void mouseClicked(MouseEvent m){
 		// TODO Auto-generated method stub
+		
 		int xMouse = m.getX();
 		int yMouse = m.getY();
 		System.out.println(xMouse + ":" + yMouse);
@@ -84,19 +130,18 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		System.out.println("mouse: " + a);
 		System.out.println("mouse: " + b);
 		gunShot.play();
-		if(a.intersects(b)) {
+		if(a.intersects(b) && deathcheck == true) {
 			System.out.println("ouch");
-			Thread.sleep(3825);
-			if(z.boon == true) { //Walking left
-				z.y += 300;
-				z.vx = -2;
-				z.vy = -7;
-			}else { //Walking right
-				z.y += 300;
-				z.vx = 2;
-				z.vy = -7;
-			}
-			z.changePicture("Ghost.gif");
+			z.vx = 0;
+			tpos = false;
+			score += 1;
+			
+			t.x = z.x - 230;
+			t.y = z.y + 300;
+			t.vy = -8;
+			deathcheck = false;
+			
+			
 		}else { //Checks if mouse is clicked outside of zombie
 			System.out.println("You missed");
 			click++;

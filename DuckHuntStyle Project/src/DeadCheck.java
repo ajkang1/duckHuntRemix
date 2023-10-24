@@ -8,7 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 import java.lang.*;
 
-public class Zombie{
+public class DeadCheck{
 	private Image img; 	
 	private AffineTransform tx;
 	int width, height;
@@ -20,15 +20,14 @@ public class Zombie{
 	boolean boon = false;
 	boolean walkCheck = true;
 
-	public Zombie(String filename) {
-		img = getImage("/imgs/"+filename); //load the image for Tree
+	public DeadCheck() {
 
 		//alter these
 		width = 120;
 		height = 200;
 		x = 100;
-		y = 275;
-		vx = 3;
+		y = 100;
+		vx = 0;
 		vy = 0;
 		
 		
@@ -41,7 +40,6 @@ public class Zombie{
 	public void changePicture(String newFileName) {
 		img = getImage("/imgs/" + newFileName);
 		init(0, 0);
-		
 	}
 	
 	public void paint(Graphics g) {
@@ -61,7 +59,7 @@ public class Zombie{
 	
 		x+=vx;
 		y+=vy;
-		
+		System.out.println(x);
 		
 		init(x,y);
 		g2.drawImage(img, tx, null);
@@ -76,11 +74,12 @@ public class Zombie{
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {
-			URL imageURL = Zombie.class.getResource(path);
+			URL imageURL = DeadCheck.class.getResource(path);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return tempImage;
 	}
+
 }
