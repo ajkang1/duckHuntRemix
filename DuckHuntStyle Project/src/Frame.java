@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -18,11 +19,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.lang.Thread;
+import java.util.Random;
 public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener {
 	
 	///
 	long timer = 0;
 	long time = 30;
+
 	int level = 0;
 	
 	//frame width/height
@@ -33,8 +36,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	int score = 0;
 	boolean dead = false;
 	boolean deathcheck = true;
-	
+	boolean youdied = false;
 	boolean tpos = false;
+	int wallhits = 0;
 	//Add your object declaration and instantiations here
 	Background b = new Background("Background.gif");
 	Zombie z = new Zombie("Zombie2.gif");
@@ -42,6 +46,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Lives l2 = new Lives("Lives.png");
 	Music gunShot = new Music("Shoot.wav", false);
 	Tombstone t = new Tombstone("tombstone.png");
+	zombiegnoe zg = new zombiegnoe("pixil-frame-0 (4).png");
+	Ghost gh = new Ghost("Ghost.gif");
+	Font font = new Font("Verdana", Font.BOLD, 28);
+
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		
@@ -49,12 +57,27 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		b.paint(g);
 		z.paint(g);
 		l.paint(g);
+		gh.paint(g);
 		t.paint(g);
+		zg.paint(g);
 		
 		////////////////////////////////////////////////////////
 		if (t.y <= 240) {
+			gh.x = z.x;
+			gh.y = z.y + 300;
+			gh.vy = -15;
+			if (z.boon == true) {
+			gh.vx = -6;
+			z.wallhits = 0;
+			gh.changePicture("output-onlinegiftools (2).gif");
+			}else {
+				gh.changePicture("Ghost.gif");
+				gh.vx = 6;
+
+			}
 			z.x = -200;
-			z.vx = 3;
+			Random random = new Random();
+			z.vx = random.nextInt(20 + (score*20)) + 10;
 			t.vy = 8;
 			deathcheck = true;
 			z.boon = false;
@@ -73,21 +96,32 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if (time == 0) {
 			level++;
 			time = 0;
+			restart();
+			
 		}
 		g.setColor(Color.WHITE);
-		g.drawString(""+time, 200,100);
-		
-		g.drawString("Score: "+score, 10, 35);
-		
+		g.drawString("Time left till next wave: "+time, 200,75);
+		if (youdied) {
+			g.drawString("YOU FAILED! LOSER! LOSER!", 400,300);
+			//zg.x = -80;
+			//zg.y = -80;
+			System.out.println("hi");
+			
+			
+		}
+		g.drawString("Score: "+score, 200, 35);
+		g.drawString("Wave: "+level, 200, 55);
 		if (level >0) {
-			z.paint(g);
 			
 			//paint new values
 		}
+		
+		////////////
+		if (z.x > 700) {
+			youdied = true;
 		}
-		
 		//////////////////////////////////////////////////////////
-		
+	}
 	public static void main(String[] arg) {
 		Frame f = new Frame();
 	}
@@ -158,6 +192,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			}else if(click == 6) {
 				l.changePicture("Lives8.png");
 				z.vx = 0;
+				youdied = true;
 			}else {
 				click = 0;
 				l.changePicture("Lives.png");
@@ -217,6 +252,38 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
+		
+	}
+	public void restart() {
+		timer = 0;
+		time = 30;
+
+		
+		//frame width/height
+		
+
+		click = 0;
+		score = 0;
+		dead = false;
+		gh.x = z.x;
+		gh.y = z.y + 300;
+		gh.vy = -15;
+		if (z.boon == true) {
+		gh.vx = -6;
+		z.wallhits = 0;
+		gh.changePicture("output-onlinegiftools (2).gif");
+		}else {
+			gh.changePicture("Ghost.gif");
+			gh.vx = 6;
+
+		}
+		z.x = -200;
+		Random random = new Random();
+		z.vx = random.nextInt(20 + (score*20)) + 10;
+		deathcheck = true;
+		z.boon = false;
+		tpos = true;
+		z.changePicture("Zombie2.gif");
 		
 	}
 

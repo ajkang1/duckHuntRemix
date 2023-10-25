@@ -8,7 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 import java.lang.*;
 
-public class Zombie{
+public class Ghost{
 	private Image img; 	
 	private AffineTransform tx;
 	int width, height;
@@ -19,16 +19,16 @@ public class Zombie{
 	double scaleHeight = 1.0; //change to scale image
 	boolean boon = false;
 	boolean walkCheck = true;
-	int wallhits = 0;
-	public Zombie(String filename) {
+
+	public Ghost(String filename) {
 		img = getImage("/imgs/"+filename); //load the image for Tree
 
 		//alter these
 		width = 120;
 		height = 200;
-		x = 100;
-		y = 275;
-		vx = 3;
+		x = -1000;
+		y = -1000;
+		vx = 0;
 		vy = 0;
 		
 		
@@ -49,17 +49,7 @@ public class Zombie{
 		//these are the 2 lines of code needed draw an image on the screen
 		Graphics2D g2 = (Graphics2D) g;
 		
-		if(x>600 && wallhits < 5){
-			vx*=-1;
-			boon = true;
-			wallhits+=1;
-			img = getImage("/imgs/" + "Zombie.gif");
-		}else if(boon == true && x < 50 && wallhits < 5) {
-			vx*=-1;
-			wallhits +=1;
-			boon = false;
-			img = getImage("/imgs/" + "Zombie2.gif");
-		}
+	
 	
 		x+=vx;
 		y+=vy;
@@ -78,7 +68,7 @@ public class Zombie{
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {
-			URL imageURL = Zombie.class.getResource(path);
+			URL imageURL = Ghost.class.getResource(path);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		} catch (Exception e) {
 			e.printStackTrace();
