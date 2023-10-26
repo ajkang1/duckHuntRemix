@@ -164,6 +164,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				deathcheck = false;
 				///////
 				youdied = true;
+				timer = 1; //time stop
 			}
 		}
 		//////////////////////////////////////////////////////////
@@ -260,6 +261,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				z.vx = 0;
 				z.changePicture("ZombieLaugh.gif");
 				deathcheck = false;
+				timer = 1; //time stops
 				///////
 				youdied = true;
 			}else {
