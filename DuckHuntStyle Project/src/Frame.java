@@ -39,16 +39,19 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	boolean youdied = false;
 	boolean tpos = false;
 	int wallhits = 0;
+	int screenCheck = 0; //Counts how many times zombie gets out of screen
 	//Add your object declaration and instantiations here
 	Background b = new Background("Background.gif");
 	Zombie z = new Zombie("Zombie2.gif");
 	Lives l = new Lives("Lives.png");
 	Lives l2 = new Lives("Lives.png");
 	Music gunShot = new Music("Shoot.wav", false);
+	Music oof = new Music("oof.wav", false); //Death sound
 	Tombstone t = new Tombstone("tombstone.png");
 	zombiegnoe zg = new zombiegnoe("pixil-frame-0 (4).png");
 	Ghost gh = new Ghost("Ghost.gif");
 	Font font = new Font("Verdana", Font.BOLD, 28);
+	Restart r = new Restart("Restart.gif");
 
 	public void paint(Graphics g) {
 		super.paintComponent(g);
@@ -60,6 +63,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		gh.paint(g);
 		t.paint(g);
 		zg.paint(g);
+		r.paint(g);
 		
 		////////////////////////////////////////////////////////
 		if (t.y <= 240) {
@@ -67,17 +71,17 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			gh.y = z.y + 300;
 			gh.vy = -15;
 			if (z.boon == true) {
-			gh.vx = -6;
+			gh.vx = -5;
 			z.wallhits = 0;
 			gh.changePicture("output-onlinegiftools (2).gif");
 			}else {
 				gh.changePicture("Ghost.gif");
-				gh.vx = 6;
+				gh.vx = 5;
 
 			}
 			z.x = -200;
 			Random random = new Random();
-			z.vx = random.nextInt(20 + (score*20)) + 10;
+			z.vx = random.nextInt(10 + (score*10)) + 5;
 			t.vy = 8;
 			deathcheck = true;
 			z.boon = false;
@@ -102,10 +106,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		g.setColor(Color.WHITE);
 		g.drawString("Time left till next wave: "+time, 200,75);
 		if (youdied) {
-			g.drawString("YOU FAILED! LOSER! LOSER!", 400,300);
+			//g.drawString("YOU FAILED! LOSER! LOSER!", 400,300);
+			//try again button
+			r.y = 100;
 			//zg.x = -80;
 			//zg.y = -80;
-			System.out.println("hi");
+			//System.out.println("hi");
 			
 			
 		}
@@ -117,8 +123,39 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		
 		////////////
-		if (z.x > 700) {
-			youdied = true;
+		if (z.x < -300) { //If zombie walks off screen, player loses one of their lives
+			//youdied = true;
+			z.wallhits = 0;
+			z.x = -100;
+			z.boon = false;
+			z.vx = 3;
+			z.changePicture("Zombie2.gif");
+			screenCheck++;
+			if(screenCheck == 1) {
+				oof.play();
+				click = 1;
+				l.changePicture("Lives2.png");
+			}else if(screenCheck == 2) {
+				oof.play();
+				click = 2;
+				l.changePicture("Lives3.png");
+			}else if(screenCheck == 3) {
+				oof.play();
+				click = 3;
+				l.changePicture("Lives4.png");
+			}else if(screenCheck == 4) {
+				oof.play();
+				click = 4;
+				l.changePicture("Lives6.png");
+			}else if(screenCheck == 5) {
+				oof.play();
+				click = 5;
+				l.changePicture("Lives7.png");
+			}else if(screenCheck == 6) {
+				oof.play();
+				click = 6;
+				l.changePicture("Lives8.png");
+			}
 		}
 		//////////////////////////////////////////////////////////
 	}
@@ -160,6 +197,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		//Represent the 2nd object as a Rectangle
 		Rectangle b = new Rectangle(z.x, z.y, z.width, z.height); //x, y, width, height
 		
+		//Represent restart button
+		Rectangle restart = new Rectangle(r.x, r.y, r.width, r.height);
+		
 		//Print the values of the Rectangle to confirm they're all sensical values!
 		System.out.println("mouse: " + a);
 		System.out.println("mouse: " + b);
@@ -175,31 +215,65 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			t.vy = -8;
 			deathcheck = false;
 			
+		//Checks if mouse intersects restart button to restart game
+			
 			
 		}else { //Checks if mouse is clicked outside of zombie
 			System.out.println("You missed");
 			click++;
 			if(click == 1) {
+				oof.play();
+				screenCheck = 1;
 				l.changePicture("Lives2.png");
 			}else if(click == 2) {
+				oof.play();
+				screenCheck = 2;
 				l.changePicture("Lives3.png");
 			}else if(click == 3) {
+				oof.play();
+				screenCheck = 3;
 				l.changePicture("Lives4.png");
 			}else if(click == 4) {
+				oof.play();
+				screenCheck = 4;
 				l.changePicture("Lives6.png");
 			}else if(click == 5) {
+				oof.play();
+				screenCheck = 5;
 				l.changePicture("Lives7.png");
 			}else if(click == 6) {
+				oof.play();
+				screenCheck = 6;
 				l.changePicture("Lives8.png");
+				r.changePicture("Restart.gif");
+				/////// Zombie laughs when player loses
+				z.x = 250;
 				z.vx = 0;
+				z.changePicture("ZombieLaugh.gif");
+				deathcheck = false;
+				///////
 				youdied = true;
 			}else {
-				click = 0;
-				l.changePicture("Lives.png");
-				if(z.boon == true) {
-					z.vx = -3;
-				}else {
-					z.vx = 3;
+				if(a.intersects(restart)) { //Checks if mouse clicks restart button
+					System.out.println("restart button pressed");
+					if(r.y < 700) { //Takes restart button off of screen
+						r.changePicture("Restart2.png");
+						r.vy = 10;
+					}
+					restart();
+					score = 0;
+					z.boon = false;
+					youdied = false;
+					l.changePicture("Lives.png");
+					level = 0; //starts player off from the beginning
+					
+					///////////////
+					//if(z.boon == true) {
+						//z.vx = -3;
+					//}else { 					<---- DELETE SECTION IF NOT NEEDED
+						//z.vx = 3;
+					//}
+					//////////////
 				}
 			}
 		}
@@ -263,7 +337,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 
 		click = 0;
-		score = 0;
+		screenCheck = 0;
+		l.changePicture("Lives.png");
+		//score = 0;
 		dead = false;
 		gh.x = z.x;
 		gh.y = z.y + 300;
@@ -279,7 +355,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		z.x = -200;
 		Random random = new Random();
-		z.vx = random.nextInt(20 + (score*20)) + 10;
+		z.vx = random.nextInt(10 + (score*10)) + 5;
 		deathcheck = true;
 		z.boon = false;
 		tpos = true;
