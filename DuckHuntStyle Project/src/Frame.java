@@ -155,6 +155,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				oof.play();
 				click = 6;
 				l.changePicture("Lives8.png");
+				r.y = 150;
+				r.changePicture("Restart.gif");
+				/////// Zombie laughs when player loses
+				z.x = 250;
+				z.vx = 0;
+				z.changePicture("ZombieLaugh.gif");
+				deathcheck = false;
+				///////
+				youdied = true;
 			}
 		}
 		//////////////////////////////////////////////////////////
