@@ -24,9 +24,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	
 	///
 	long timer = 0;
-	long time = 30;
+	long time = 20;
 
-	int level = 0;
+	int level = 1;
 	
 	//frame width/height
 	int width = 900;
@@ -45,13 +45,18 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Zombie z = new Zombie("Zombie2.gif");
 	Lives l = new Lives("Lives.png");
 	Lives l2 = new Lives("Lives.png");
-	Music gunShot = new Music("Shoot.wav", false);
+	Music gunShot = new Music("Shoot8bit.wav", false);
 	Music oof = new Music("oof.wav", false); //Death sound
+	Music mainSong = new Music("DeadHunt.wav", true); //Theme song
+	Music newWave = new Music("newWave.wav", false); //New wave
+	Music youDied = new Music("youDied.wav", false); //You died
+	Music taunt = new Music("taunt.wav", false); //Taunt sound
 	Tombstone t = new Tombstone("tombstone.png");
 	zombiegnoe zg = new zombiegnoe("pixil-frame-0 (4).png");
 	Ghost gh = new Ghost("Ghost.gif");
 	Font font = new Font("Verdana", Font.BOLD, 28);
 	Restart r = new Restart("Restart.gif");
+	newWave wave = new newWave("newWave.png");
 
 	public void paint(Graphics g) {
 		super.paintComponent(g);
@@ -64,6 +69,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		t.paint(g);
 		zg.paint(g);
 		r.paint(g);
+		wave.paint(g);
 		
 		////////////////////////////////////////////////////////
 		if (t.y <= 240) {
@@ -81,7 +87,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			}
 			z.x = -200;
 			Random random = new Random();
-			z.vx = random.nextInt(10 + (score*10)) + 5;
+			z.vx = random.nextInt(level*(10 + (score*5))) + 5;
 			t.vy = 8;
 			deathcheck = true;
 			z.boon = false;
@@ -98,8 +104,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			time--;
 			}
 		if (time == 0) {
+			newWave.play();
 			level++;
 			time = 0;
+			wave.vy = -15;
 			restart();
 			
 		}
@@ -153,6 +161,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				l.changePicture("Lives7.png");
 			}else if(screenCheck == 6) {
 				oof.play();
+				youDied.play();
+				taunt.play();
 				click = 6;
 				l.changePicture("Lives8.png");
 				r.y = 150;
@@ -191,6 +201,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		t.start();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
+		mainSong.play();;
 	}
 	
 	@Override
@@ -253,6 +264,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				l.changePicture("Lives7.png");
 			}else if(click == 6) {
 				oof.play();
+				taunt.play();
+				youDied.play();
 				screenCheck = 6;
 				l.changePicture("Lives8.png");
 				r.changePicture("Restart.gif");
@@ -276,7 +289,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 					z.boon = false;
 					youdied = false;
 					l.changePicture("Lives.png");
-					level = 0; //starts player off from the beginning
+					level = 1; //starts player off from the beginning
 					
 					///////////////
 					//if(z.boon == true) {
@@ -341,7 +354,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	}
 	public void restart() {
 		timer = 0;
-		time = 30;
+		time = 20;
 
 		
 		//frame width/height

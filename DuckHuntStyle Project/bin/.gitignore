@@ -1,12 +1,12 @@
 /Background.class
 /DeadCheck.class
 /Frame.class
+/Ghost.class
 /Lives.class
 /Music.class
+/Restart.class
 /Tombstone.class
 /Zombie.class
 /imgs/
 /zombiegnoe.class
-/Ghost.class
-/Restart.class
-/oof.mp3
+/newWave.class
