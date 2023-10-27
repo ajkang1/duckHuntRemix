@@ -28,6 +28,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 
 	int level = 1;
 	
+	//song timer
+	long timer2 = 0;
+	long time2 = 77;
+	
 	//frame width/height
 	int width = 900;
 	int height = 600;
@@ -111,6 +115,19 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			restart();
 			
 		}
+		
+		//song timer loop
+		timer2 += 20;
+		if(timer2%1000 == 0) {
+			time2--;
+			}
+		if (time2 == 0) {
+			mainSong.play();
+			time2 = 77;
+			
+		}
+		//
+		
 		g.setColor(Color.WHITE);
 		g.drawString("Time left till next wave: "+time, 200,75);
 		if (youdied) {
@@ -201,7 +218,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		t.start();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
-		mainSong.play();;
+		mainSong.play();
 	}
 	
 	@Override
